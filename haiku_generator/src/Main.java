@@ -4,16 +4,22 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.lang.Object.*;
-//import org.json.JSONObject;
+//import java.lang.Object.*;
+//
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 
 public class Main{
+	
 	private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(Main.class.getName());
 	
 	private static HttpURLConnection conn;
 	public static void main(String[] args) {
+		System.out.println("Hi");
+		
 		
 		BufferedReader reader;
 		String line;
@@ -47,28 +53,33 @@ public class Main{
 			//log.info("response code: " + status);
 			System.out.println(responseContent.toString());
 			
-//			JSONObject myResponse = new JSONObject(responseContent.toString());
-			
+			JSONArray resultArray = new JSONArray(responseContent.toString());
+			for (int i = 0; i < resultArray.length(); i++) {
+				JSONObject resultObj = resultArray.getJSONObject(i);
+				String word = resultObj.getString("word");
+				int syllables = resultObj.getInt("numSyllables");
+				System.out.println(word + " has " + syllables + " syllables.");
+			}
 			
 		}
 		catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally {
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
 			conn.disconnect();
 		}
-			
+//			
 	}
 	
-//	public static String parse(String responseBody) {
+//	public static String parse(String responseBody) throws JSONException {
 //		JSONArray syl = new JSONArray(responseBody);
-//		for (int i = 0 ; i < albums.length(); i++) {
-//			JSONObject album = albums.getJSONObject(i);			
-//			int userId = album.getInt("userId");
-//			int id = album.getInt("id");
-//			String title = album.getString("title");
-//			System.out.println(id+" "+title+" "+userId);
+//		for (int i = 0 ; i < syl.length(); i++) {
+//			JSONObject syll = syl.getJSONObject(i);			
+//			String num_syl = syll.getString("numSyllables");
+//			System.out.println(num_syl);
 //		}
 //		return null;
 //	}
