@@ -2,7 +2,7 @@ package haiku_generator;
 
 import java.util.ArrayList;
 
-import haiku_generator.WordBank.Word;
+
 
 public class ASTNode {
  
@@ -15,6 +15,7 @@ public class ASTNode {
 	public ASTNode(String grammarSym)
 	{
 		grammarSymbol=grammarSym;
+		terminalString ="";
 	}
 
 }
