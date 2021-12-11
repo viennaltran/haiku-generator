@@ -9,20 +9,20 @@ public class GrammarTree {
 
 
 	private ASTNode root;
-	int totalSyllables; // initialize to 0
-	
 
+	// initialize to 0
+	
 	// Use this method to give the tree a root node.
 	// It will return a reference to the root node created.
 	public GrammarTree()
 	{
-		root=new ASTNode("start");
+		
 
 	}
 
 	public void generateTree(int syllableCount) 
 	{
-		
+		root=new ASTNode("Start");
 		//if statement for first/third line
 		if (syllableCount==5)
 		{
@@ -46,27 +46,39 @@ public class GrammarTree {
 	
 	private ArrayList<String> terminalListHelpler(ASTNode node, ArrayList<String> terminals)
 	{
-		
 		if(node.grammarSymbol.contains("*"))
 		{
 			if(node.grammarSymbol.contains("Noun")){
 				terminals.add("n");
+				
 			}
 			else if(node.grammarSymbol.contains("Verb")) {
 				terminals.add("v");
+				
+				
 			}else if (node.grammarSymbol.contains("Adjective"))
 			{
-			terminals.add("adj");
+				terminals.add("adj");
+				
+			
 			}else if(node.grammarSymbol.contains("Conj"))
 			{
 				terminals.add("conj");
+				
 			}
 		}
+		
+		
+	
 		for (ASTNode n : node.children)
 		{
-		terminalListHelpler(n,terminals);
-		
+			  terminalListHelpler(n,terminals);
+			  
+	
 		}
+		
+		
+		
 		return terminals;
 		
 		
@@ -76,21 +88,28 @@ public class GrammarTree {
 	// helper function
 	// returns the total number of syllables in this node
 	private void expandNode5(ASTNode node) {
-		int syllables = 0;
-		if (node.grammarSymbol.equals("List")) {
+		Random rand = new Random();
+		if(node.grammarSymbol.equals("Start"))
+		{
+			ASTNode child= new ASTNode("List");
+			node.children.add(child);
+			expandNode5(child);
 			
-			Random rand = new Random();
-			int r = rand.nextInt(1); 
+		}
+		else if (node.grammarSymbol.equals("List")) {
+			
+			
+			int r = rand.nextInt(2); 
 			
 			if (r == 0) {
 				// List -> NP
-				ASTNode child = new ASTNode("NP");
+				ASTNode child = new ASTNode("NounPhrase");
 				node.children.add(child);
 				expandNode5(child);
 			} else {
 				// List -> NP List
 				ASTNode child1 = new ASTNode("List");
-				ASTNode child2 = new ASTNode("NP");
+				ASTNode child2 = new ASTNode("NounPhrase");
 				node.children.add(child1);
 				node.children.add(child2);
 				expandNode5(child1);
@@ -98,13 +117,26 @@ public class GrammarTree {
 			}
 
 
-		} else if (node.grammarSymbol.equals("Noun")) {
-//			ASTNode child = new ASTNode("*terminal*");
-//			Word theNoun = getRandomNoun();
-//			child.grammarSymbol = theNoun;
-//			syllables += theNoun.syllables;
-//			children.add(child);
+		} else if (node.grammarSymbol.equals("NounPhrase")) {
+			int r = rand.nextInt(2);
+			
+			if(r==0)
+			{
+				ASTNode child= new ASTNode("*Noun");
+				node.children.add(child);
+				
+			}else {
+				
+				ASTNode child1 = new ASTNode("NounPhrase");
+				ASTNode child2= new ASTNode("*Adjective");
+				node.children.add(child1);
+				node.children.add(child2);
+				expandNode5(child1);
+						
+			}
+			
 		}
+			
 		
 	}
 	
@@ -122,7 +154,7 @@ public class GrammarTree {
 			
 		}else if (node.grammarSymbol.equals("VerbPhrase"))
 		{
-			int r = rand.nextInt(1);
+			int r = rand.nextInt(2);
 			if (r== 0)
 			{
 			ASTNode child1 = new ASTNode("NounPhrase");
@@ -130,7 +162,7 @@ public class GrammarTree {
 			node.children.add(child1);
 			node.children.add(child2);
 			expandNode7(child1);
-			expandNode7(child2);
+		
 			}else
 			{
 				ASTNode child1 = new ASTNode("NounPhrase");
@@ -149,10 +181,10 @@ public class GrammarTree {
 			
 		}else if (node.grammarSymbol.equals("NounPhrase"))
 		{
-			int r =rand.nextInt(1);
+			int r =rand.nextInt(2);
 				
-			if (r==0) {
-			ASTNode child1 = new ASTNode("*Adj");
+			if (r==1) {
+			ASTNode child1 = new ASTNode("*Adjective");
 			ASTNode child2 = new ASTNode("NounPhrase");
 			node.children.add(child1);
 			node.children.add(child2);

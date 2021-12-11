@@ -6,9 +6,9 @@ import java.util.Random;
 
 public class Word {
 	
-	String text;
-	int syllables;
-	String pos;
+	private String text;
+	private int syllables;
+	private String pos;
 
 
 	public Word()

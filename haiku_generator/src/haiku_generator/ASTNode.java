@@ -16,6 +16,7 @@ public class ASTNode {
 	{
 		grammarSymbol=grammarSym;
 		terminalString ="";
+		children = new ArrayList<ASTNode>();
 	}
 
 }

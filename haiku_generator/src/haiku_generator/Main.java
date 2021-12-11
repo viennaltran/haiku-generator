@@ -6,39 +6,116 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
 //import java.lang.Object.*;
 //
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import haiku_generator.WordBank;
+
 
 
 
 
 public class Main{
 	
-	
+	 static WordBank defaultBank = new WordBank();
+	 static ArrayList<String[]> haiku = new ArrayList<String[]>();
 	
 	public static void main(String[] args) throws JSONException
 	{
-		WordBank newBank= new WordBank();
 		
 		
 		
-		for(int i=10;i<20;i++)
-		{
-			System.out.println(newBank.randomWord("adj").getText()+" "+newBank.randomWord("n").getText()+" "+newBank.randomWord("v").getText());
-			System.out.println("the "+ newBank.randomWord("adj").getText()+" "+newBank.randomWord("n").getText());
+			String[] firstLine= makeLine(5,defaultBank);
+			
+			haiku.add(firstLine);
+			
+			WordBank seededBank1 = new WordBank(firstLine);
+			String[] secondLine=makeLine(7,seededBank1);
+			
+			haiku.add(secondLine);
+			
+			WordBank seededBank2 = new WordBank(secondLine);
+			String[] thirdLine= makeLine(5,seededBank2);
+			
+			haiku.add(thirdLine);
+			
+			for(String[] l:haiku)
+			{
+				for(int i=0;i<l.length;i++)
+				{
+					System.out.print(l[i]+ " ");
+				}
+				System.out.println();
+				
+			}
 		
-		}
+
 
 		
 		
 	}
 	
+	public static String[] makeLine(int lineSyls,WordBank bank)
+	{
+		int sylCount=0;
+		int runCount=0;
+		
+		
+		GrammarTree lineStructure= new GrammarTree();
+		lineStructure.generateTree(lineSyls);
+		
+		ArrayList<String>  terminals =  lineStructure.terminalList();
+		
+		String[] output= new String[terminals.size()];
+		int i=0;
+		
+		while(sylCount != lineSyls)
+		{
+		
+			for(String s : terminals)
+			{
+				
+				Word current;
+				current = bank.randomWord(s);
+				if(current==null)
+					current=defaultBank.randomWord(s);
+				sylCount=sylCount+current.getSyl();
+				output[i]=current.getText();
+				i++;
+				
+				
+				
+			}
+			
+			runCount+=1;	
+			
+			
+			
+			
+			if(runCount>=15)
+			{//if grammar structure has too many words reset 
+				//System.out.println("!!!Reset!!!");
+				lineStructure.generateTree(lineSyls);
+				terminals= lineStructure.terminalList();
+				output= new String[terminals.size()];
+				i=0;
+				sylCount=0;
+				runCount=0;
+			}
+			if(sylCount != lineSyls)
+			{
+				sylCount=0;
+				output = new String[terminals.size()];
+				i=0;
+			}
+			
+		} return output;
 	
+	}
 	
 	
 	
@@ -122,5 +199,47 @@ public class Main{
 ////		}
 ////		return null;
 ////	}
+//firstLineStructure.generateTree(7);
+//
+//int sylCount=0;
+//int runCount=0;
+//ArrayList<String>  structure =  firstLineStructure.terminalList();
+//
+//while(sylCount!=7){
+//	
+//	for(String s : structure)
+//	{
+//		Word current;
+//		current = newBank.randomWord(s);
+//		sylCount=sylCount+current.getSyl();
+//		
+//		System.out.print(current.getText()+" ");
+//		
+//	}
+//	
+//	runCount+=1;	
+//	System.out.println(" Syls:" +sylCount);
+//	System.out.println("runCount:"+runCount);
+//	
+//	
+//	
+//	if(runCount>=15)
+//	{//if grammar structure has too many words reset 
+//		System.out.println("!!!Reset!!!");
+//		firstLineStructure.generateTree(7);
+//		structure= firstLineStructure.terminalList();
+//		sylCount=0;
+//		runCount=0;
+//	}
+//	if(sylCount !=7)
+//	sylCount=0;
+//} 
+
+//for(int i=10;i<20;i++)
+//{
+//	System.out.println(newBank.randomWord("adj").getText()+" "+newBank.randomWord("n").getText()+" "+newBank.randomWord("v").getText());
+//	System.out.println("the "+ newBank.randomWord("adj").getText()+" "+newBank.randomWord("n").getText());
+//
+//}
 //
 //}

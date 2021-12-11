@@ -19,14 +19,31 @@ import org.json.JSONObject;
 public class WordBank
 {
 
-
-	public WordBank() throws JSONException
+	
+	public WordBank() 
 	{
-		implementSeeds(seedList);
+		try {
+			implementSeeds(seedList);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Word and = new Word("and",1,"conj");
 		Word or  = new Word("or",1,"conj");
-		
+		conjBank.add(and);
+		conjBank.add(or);
 	}
+	
+	
+	public WordBank(String[] wordList) throws JSONException
+	{
+		implementSeeds(wordList);
+		Word and = new Word("and",1,"conj");
+		Word or  = new Word("or",1,"conj");
+		conjBank.add(and);
+		conjBank.add(or);
+	}
+
 	
 	private String[] seedList= new String[]{"earth", "wind","wild","landscape","magical","forever",  "feel", "water","bird","fly","life","grow","rock","Fertile", "Fierce", "Foliage", "Forest"}; 
 	
@@ -49,6 +66,8 @@ public class WordBank
 			 {
 				 for (int i = 0; i < resultArray.length()-1; i++) {
 					JSONObject resultObj = resultArray.getJSONObject(i);
+					if(resultObj.toString().contains("tags"))
+					{
 					String word = resultObj.getString("word");
 					int syllables = resultObj.getInt("numSyllables");
 					
@@ -72,7 +91,7 @@ public class WordBank
 						verbBank.add(new Word(word,syllables,pos));
 				 	}
 			 	
-			 	
+					}
 		
 			
 				 }
@@ -86,8 +105,7 @@ public class WordBank
 	
 	 
 	
-
-
+	
 	 
 	 
 	 
@@ -155,23 +173,23 @@ public class WordBank
 	 {
 		Random rand= new Random();
 		int bound;
-		 if(pos.equals("n")) {
+		 if(pos.equals("n")&&!nounBank.isEmpty()) {
 			 bound = nounBank.size();
 			 return nounBank.get(rand.nextInt(bound));
 			 
-		 }else if(pos.equals("v"))
+		 }else if(pos.equals("v")&&!verbBank.isEmpty())
 		 {
 			 bound = verbBank.size();
 			 return verbBank.get(rand.nextInt(bound));
 		 }
-		 else if(pos.equals("adj"))
+		 else if(pos.equals("adj")&&!adjBank.isEmpty())
 		 {
 			 bound = adjBank.size();
 			 return adjBank.get(rand.nextInt(bound));
 		 }else if(pos.equals("conj"))
 		 {
-			 return conjBank.get(rand.nextInt(1));
-		 }else return new Word("",0,"");
+			 return conjBank.get(rand.nextInt(2));
+		 }else return null;
 		 
 	 }
 	
