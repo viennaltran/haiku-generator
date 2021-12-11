@@ -47,16 +47,19 @@ public class GrammarTree {
 	private ArrayList<String> terminalListHelpler(ASTNode node, ArrayList<String> terminals)
 	{
 		
-		if(node.terminalString.contains("*"))
+		if(node.grammarSymbol.contains("*"))
 		{
-			if(node.terminalString.contains("Noun")){
+			if(node.grammarSymbol.contains("Noun")){
 				terminals.add("n");
 			}
-			else if(node.terminalString.contains("Verb")) {
+			else if(node.grammarSymbol.contains("Verb")) {
 				terminals.add("v");
-			}else if (node.terminalString.contains("Adjective"))
+			}else if (node.grammarSymbol.contains("Adjective"))
 			{
 			terminals.add("adj");
+			}else if(node.grammarSymbol.contains("Conj"))
+			{
+				terminals.add("conj");
 			}
 		}
 		for (ASTNode n : node.children)
@@ -98,7 +101,7 @@ public class GrammarTree {
 		} else if (node.grammarSymbol.equals("Noun")) {
 //			ASTNode child = new ASTNode("*terminal*");
 //			Word theNoun = getRandomNoun();
-//			child.terminalString = theNoun;
+//			child.grammarSymbol = theNoun;
 //			syllables += theNoun.syllables;
 //			children.add(child);
 		}
@@ -119,38 +122,49 @@ public class GrammarTree {
 			
 		}else if (node.grammarSymbol.equals("VerbPhrase"))
 		{
+			int r = rand.nextInt(1);
+			if (r== 0)
+			{
 			ASTNode child1 = new ASTNode("NounPhrase");
-			ASTNode child2 = new ASTNode("Verb");
+			ASTNode child2 = new ASTNode("*Verb");
 			node.children.add(child1);
 			node.children.add(child2);
 			expandNode7(child1);
 			expandNode7(child2);
+			}else
+			{
+				ASTNode child1 = new ASTNode("NounPhrase");
+				ASTNode child2 = new ASTNode("*Verb");
+				ASTNode child3 = new ASTNode("*Conj");
+				ASTNode child4= new ASTNode("*Verb");
+				node.children.add(child1);
+				node.children.add(child2);
+				node.children.add(child3);
+				node.children.add(child4);
+				expandNode7(child1);
+				
+				
+				
+			}
 			
 		}else if (node.grammarSymbol.equals("NounPhrase"))
 		{
-			ASTNode child1 = new ASTNode("Adj");
+			int r =rand.nextInt(1);
+				
+			if (r==0) {
+			ASTNode child1 = new ASTNode("*Adj");
 			ASTNode child2 = new ASTNode("NounPhrase");
 			node.children.add(child1);
 			node.children.add(child2);
-			expandNode7(child1);
 			expandNode7(child2);
 			
-		}else if(node.grammarSymbol.equals("NounPhrase"))
-		{
-			ASTNode child1 = new ASTNode("Noun");
+			}else {
+			ASTNode child1 = new ASTNode("*Noun");
 			node.children.add(child1);
-			
-			expandNode7(child1);
+			}
 		
-		}else if(node.grammarSymbol.equals("Noun"))
-		{
-			ASTNode child = new ASTNode("Noun");
-			Word randomNoun = new Word();
-			
+		
 		}
-		
-		
-		
 		
 	
 	}

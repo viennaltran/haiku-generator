@@ -2,7 +2,7 @@ package haiku_generator;
 
 import java.util.Random;
 
-import haiku_generator.WordBank.Word;
+
 
 public class Word {
 	

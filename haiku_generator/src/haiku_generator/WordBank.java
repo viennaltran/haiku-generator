@@ -23,6 +23,8 @@ public class WordBank
 	public WordBank() throws JSONException
 	{
 		implementSeeds(seedList);
+		Word and = new Word("and",1,"conj");
+		Word or  = new Word("or",1,"conj");
 		
 	}
 	
@@ -31,7 +33,7 @@ public class WordBank
 	public  ArrayList<Word> nounBank = new ArrayList<Word>();
 	public ArrayList<Word> verbBank = new ArrayList<Word>();
 	public ArrayList<Word> adjBank = new ArrayList<Word>();
-
+	public ArrayList<Word> conjBank= new ArrayList<Word>();
 		
 			
 	 private void implementSeeds( String[]seeds) throws JSONException
@@ -166,7 +168,10 @@ public class WordBank
 		 {
 			 bound = adjBank.size();
 			 return adjBank.get(rand.nextInt(bound));
-		 }else return null;
+		 }else if(pos.equals("conj"))
+		 {
+			 return conjBank.get(rand.nextInt(1));
+		 }else return new Word("",0,"");
 		 
 	 }
 	
