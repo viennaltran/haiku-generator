@@ -19,39 +19,6 @@ import org.json.JSONObject;
 public class WordBank
 {
 
-	public class Word {
-		
-		String text;
-		int syllables;
-		String pos;
-
-
-		
-		private Word(String txt, int syls, String p)
-		{	
-		text=txt;
-		syllables=syls;
-		pos=p;
-	
-		}
-		
-		public String getText()
-		{
-			return text;
-		}
-		
-		public int getSyl()
-		{
-			return syllables;
-		}
-		
-		public String getPos()
-		{
-			return pos;
-		}
-		
-		
-	}
 
 	public WordBank() throws JSONException
 	{
@@ -182,8 +149,6 @@ public class WordBank
 				return null;
 	 }
 	 
-	 
-	
 	 public Word randomWord(String pos)
 	 {
 		Random rand= new Random();
@@ -204,14 +169,11 @@ public class WordBank
 		 }else return null;
 		 
 	 }
+	
+	
 	 
 	 
-	 public void fake()
-	 {
-		 
-		 //this is fake
-	 }
-	 
+	
 //	 for (int i = 0; i < resultArray.length(); i++) {
 //			JSONObject resultObj = resultArray.getJSONObject(i);
 //			String word = resultObj.getString("word");

@@ -7,7 +7,7 @@ import haiku_generator.WordBank.Word;
 public class ASTNode {
  
 	String grammarSymbol;
-	Word terminalString; 
+	String terminalString; 
 	ArrayList<ASTNode> children;
 	
 	
