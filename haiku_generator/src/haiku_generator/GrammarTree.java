@@ -37,7 +37,7 @@ public class GrammarTree {
 		if (node.grammarSymbol.equals("List")) {
 			
 			Random rand = new Random();
-			int r = rand.nextInt(1);
+			int r = rand.nextInt(1); 
 			
 			if (r == 0) {
 				// List -> NP
