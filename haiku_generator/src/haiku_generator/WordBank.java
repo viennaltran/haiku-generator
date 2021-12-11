@@ -52,8 +52,6 @@ public class WordBank
 		
 		
 	}
-	
-
 
 	public WordBank() throws JSONException
 	{
@@ -205,6 +203,13 @@ public class WordBank
 			 return adjBank.get(rand.nextInt(bound));
 		 }else return null;
 		 
+	 }
+	 
+	 
+	 public void fake()
+	 {
+		 
+		 //this is fake
 	 }
 	 
 //	 for (int i = 0; i < resultArray.length(); i++) {
