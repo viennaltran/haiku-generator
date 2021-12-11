@@ -45,14 +45,45 @@ public class WordBank
 	}
 
 	
-	private String[] seedList= new String[]{"earth", "wind","wild","landscape","magical","forever",  "feel", "water","bird","fly","life","grow","rock","Fertile", "Fierce", "Foliage", "Forest"}; 
+	private String[] seedList= new String[]{"people","love","earth", "wind","wild","landscape","magical","forever",  "feel", "water","bird","fly","life","grow","natural","Fertile","emotional" , "Forest","raining","stars","blue","green","believe"}; 
 	
 	public  ArrayList<Word> nounBank = new ArrayList<Word>();
 	public ArrayList<Word> verbBank = new ArrayList<Word>();
 	public ArrayList<Word> adjBank = new ArrayList<Word>();
 	public ArrayList<Word> conjBank= new ArrayList<Word>();
 		
-			
+	
+	 public Word randomWord(String pos)
+	 {
+		Random rand= new Random();
+		int bound;
+		 if(pos.equals("n")&&!nounBank.isEmpty()) {
+			 bound = nounBank.size();
+			 return nounBank.get(rand.nextInt(bound));
+			 
+		 }else if(pos.equals("v")&&!verbBank.isEmpty())
+		 {
+			 bound = verbBank.size();
+			 return verbBank.get(rand.nextInt(bound));
+		 }
+		 else if(pos.equals("adj")&&!adjBank.isEmpty())
+		 {
+			 bound = adjBank.size();
+			 return adjBank.get(rand.nextInt(bound));
+		 }else if(pos.equals("conj"))
+		 {
+			 return conjBank.get(rand.nextInt(2));
+		 }else return null;
+		 
+	 }
+	
+		
+	 public void addToBank(String[] words) throws JSONException {
+		 
+		 implementSeeds(words);
+	 }
+	 
+	 
 	 private void implementSeeds( String[]seeds) throws JSONException
 	 {
 		 //fills bank with words related to all the words in the array
@@ -60,9 +91,12 @@ public class WordBank
 		 
 		for (int s=0; s<seeds.length;s++)
 		{
-		JSONArray resultArray= makeRequest("words?ml="+seeds[s]+"&md=sp");
+			
+			String request= seeds[s].replaceAll("\s+","+");
+			
+			JSONArray resultArray= makeRequest("words?ml="+request+"&md=sp");
 			 
-			 if(resultArray.length()>0)
+			 if(resultArray!=null)
 			 {
 				 for (int i = 0; i < resultArray.length()-1; i++) {
 					JSONObject resultObj = resultArray.getJSONObject(i);
@@ -135,7 +169,7 @@ public class WordBank
 					// Test if the response from the server is successful
 					int status = conn.getResponseCode();
 					
-					if (status >= 300) {
+					if (status >= 600) {
 						reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 						while ((line = reader.readLine()) != null) {
 							responseContent.append(line);
@@ -169,29 +203,6 @@ public class WordBank
 				return null;
 	 }
 	 
-	 public Word randomWord(String pos)
-	 {
-		Random rand= new Random();
-		int bound;
-		 if(pos.equals("n")&&!nounBank.isEmpty()) {
-			 bound = nounBank.size();
-			 return nounBank.get(rand.nextInt(bound));
-			 
-		 }else if(pos.equals("v")&&!verbBank.isEmpty())
-		 {
-			 bound = verbBank.size();
-			 return verbBank.get(rand.nextInt(bound));
-		 }
-		 else if(pos.equals("adj")&&!adjBank.isEmpty())
-		 {
-			 bound = adjBank.size();
-			 return adjBank.get(rand.nextInt(bound));
-		 }else if(pos.equals("conj"))
-		 {
-			 return conjBank.get(rand.nextInt(2));
-		 }else return null;
-		 
-	 }
 	
 	
 	 

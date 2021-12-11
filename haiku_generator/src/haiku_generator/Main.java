@@ -29,6 +29,7 @@ public class Main{
 		
 		
 		
+		
 			String[] firstLine= makeLine(5,defaultBank);
 			
 			haiku.add(firstLine);
@@ -38,7 +39,10 @@ public class Main{
 			
 			haiku.add(secondLine);
 			
+			
 			WordBank seededBank2 = new WordBank(secondLine);
+			seededBank2.addToBank(firstLine);
+			
 			String[] thirdLine= makeLine(5,seededBank2);
 			
 			haiku.add(thirdLine);
@@ -75,7 +79,8 @@ public class Main{
 		
 		while(sylCount != lineSyls)
 		{
-		
+		// populate grammar structure with random words chosen from given bank
+		// if bank is empty, choose from the default bank
 			for(String s : terminals)
 			{
 				
@@ -91,11 +96,16 @@ public class Main{
 				
 			}
 			
-			runCount+=1;	
+			
+			runCount++;
 			
 			
-			
-			
+			if(sylCount != lineSyls)
+			{
+				sylCount=0;
+				output = new String[terminals.size()];
+				i=0;
+			}
 			if(runCount>=15)
 			{//if grammar structure has too many words reset 
 				//System.out.println("!!!Reset!!!");
@@ -105,12 +115,6 @@ public class Main{
 				i=0;
 				sylCount=0;
 				runCount=0;
-			}
-			if(sylCount != lineSyls)
-			{
-				sylCount=0;
-				output = new String[terminals.size()];
-				i=0;
 			}
 			
 		} return output;
