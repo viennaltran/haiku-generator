@@ -14,76 +14,93 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.*;
 
-
+import java.awt.Insets;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 
 public class Main{
-	
-	 static WordBank defaultBank = new WordBank();
-	 static ArrayList<String[]> haiku = new ArrayList<String[]>();
-	
+
+
+	static WordBank defaultBank = new WordBank();
+	static ArrayList<String[]> haiku = new ArrayList<String[]>();
+
 	public static void main(String[] args) throws JSONException
 	{
-		
-		
-		
-		
-			String[] firstLine= makeLine(5,defaultBank);
-			
-			haiku.add(firstLine);
-			
-			WordBank seededBank1 = new WordBank(firstLine);
-			String[] secondLine=makeLine(7,seededBank1);
-			
-			haiku.add(secondLine);
-			
-			
-			WordBank seededBank2 = new WordBank(secondLine);
-			seededBank2.addToBank(firstLine);
-			
-			String[] thirdLine= makeLine(5,seededBank2);
-			
-			haiku.add(thirdLine);
-			
-			for(String[] l:haiku)
+
+		String[] firstLine= makeLine(5,defaultBank);
+
+		haiku.add(firstLine);
+
+		WordBank seededBank1 = new WordBank(firstLine);
+		String[] secondLine=makeLine(7,seededBank1);
+
+		haiku.add(secondLine);
+
+
+		WordBank seededBank2 = new WordBank(secondLine);
+		seededBank2.addToBank(firstLine);
+
+		String[] thirdLine= makeLine(5,seededBank2);
+
+		haiku.add(thirdLine);
+
+		for(String[] l:haiku)
+		{
+			for(int i=0;i<l.length;i++)
 			{
-				for(int i=0;i<l.length;i++)
-				{
-					System.out.print(l[i]+ " ");
-				}
-				System.out.println();
-				
+				System.out.print(l[i]+ " ");
 			}
-		
+			System.out.println();
+
+		}
+
+		//create an object
+		HaikuGUI frame = new HaikuGUI();
+		//set the size of the frame
+		frame.setSize(400, 300); //these numbers are in pixels
+		//set the default close operation
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//must make frame visible
+		frame.setVisible(true);
 
 
-		
-		
+
+
+
 	}
-	
+
 	public static String[] makeLine(int lineSyls,WordBank bank)
 	{
 		int sylCount=0;
 		int runCount=0;
-		
-		
+
+
 		GrammarTree lineStructure= new GrammarTree();
 		lineStructure.generateTree(lineSyls);
-		
+
 		ArrayList<String>  terminals =  lineStructure.terminalList();
-		
+
 		String[] output= new String[terminals.size()];
 		int i=0;
-		
+
 		while(sylCount != lineSyls)
 		{
-		// populate grammar structure with random words chosen from given bank
-		// if bank is empty, choose from the default bank
+			// populate grammar structure with random words chosen from given bank
+			// if bank is empty, choose from the default bank
 			for(String s : terminals)
 			{
-				
+
 				Word current;
 				current = bank.randomWord(s);
 				if(current==null)
@@ -91,15 +108,15 @@ public class Main{
 				sylCount=sylCount+current.getSyl();
 				output[i]=current.getText();
 				i++;
-				
-				
-				
+
+
+
 			}
-			
-			
+
+
 			runCount++;
-			
-			
+
+
 			if(sylCount != lineSyls)
 			{
 				sylCount=0;
@@ -116,18 +133,18 @@ public class Main{
 				sylCount=0;
 				runCount=0;
 			}
-			
+
 		} return output;
-	
+
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }
-	
+
 //	private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(Main.class.getName());
 //	
 //	private static HttpURLConnection conn;
