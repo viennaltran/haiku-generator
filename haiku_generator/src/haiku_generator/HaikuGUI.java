@@ -41,36 +41,49 @@ public class HaikuGUI extends JFrame {
 	{
 		//create GUI objects
 		panel = new JPanel();
-		panel.setBackground(Color.PINK);
-		keyword = new JTextField(20);
+		System.setProperty("myColor", "#89CFF0");
+		panel.setBackground(Color.getColor("myColor"));
 		btnGenerateRand = new JButton("Generate Random Haiku");
 		results = new JTextArea(20, 20);
+		keyword = new JTextField(20); 
 		btnGenerateCustom = new JButton("Generate Haiku");
 		//add components to the panel
-		panel.add(new JLabel("Enter key word(s): "));
-		panel.add(keyword);
 		panel.add(btnGenerateRand);
 		panel.add(results);
+		panel.add(new JLabel("Enter key word(s): "));
+		panel.add(keyword);
 		panel.add(btnGenerateCustom);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 	}//end buildPanel method
 	//create inner class to handle button click
 
-	
-	
+
+
 	private class ButtonHandler implements ActionListener
 	{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			//which button clicked?
+			System.out.println(e.getActionCommand());
+			//returns the text on the button
+			// test if button is connected
+			//System.out.println("Button clicked");
+			switch(e.getActionCommand())
+			{
+			case "Generate Random Haiku":
 
-			String keywordSave = keyword.getText();
-			System.out.println("keyword is " + keywordSave);
-			JSONArray resultArray= makeRequest("words?ml="+keywordSave+"&md=sp");
+				break;
+			case "Generate Haiku":
+				String keywordSave = keyword.getText();
+				System.out.println("keyword is " + keywordSave);
+				JSONArray resultArray= makeRequest("words?ml="+keywordSave+"&md=sp");
+				break;
+			}//end switch
 
-		}
+		}//end actionPerformed
 
 	}//end actionPerformed
 
