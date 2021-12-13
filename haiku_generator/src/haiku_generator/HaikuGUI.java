@@ -24,7 +24,8 @@ public class HaikuGUI extends JFrame {
 	private JPanel panel;
 	private JTextField keyword;
 	private JLabel lblMessage;
-	private JButton btnGenerate;
+	private JButton btnGenerateRand;
+	private JButton btnGenerateCustom;
 	private JTextArea results;
 	//constructor
 	public HaikuGUI()
@@ -42,15 +43,17 @@ public class HaikuGUI extends JFrame {
 		panel = new JPanel();
 		panel.setBackground(Color.PINK);
 		keyword = new JTextField(20);
-		btnGenerate = new JButton("Generate Haiku");
+		btnGenerateRand = new JButton("Generate Random Haiku");
 		results = new JTextArea(20, 20);
+		btnGenerateCustom = new JButton("Generate Haiku");
 		//add components to the panel
 		panel.add(new JLabel("Enter key word(s): "));
 		panel.add(keyword);
-		panel.add(btnGenerate);
+		panel.add(btnGenerateRand);
 		panel.add(results);
+		panel.add(btnGenerateCustom);
 		//connect button to action
-		btnGenerate.addActionListener(new ButtonHandler());
+		btnGenerateRand.addActionListener(new ButtonHandler());
 	}//end buildPanel method
 	//create inner class to handle button click
 

@@ -30,16 +30,16 @@ public class Main{
 
 		haiku.add(firstLine);
 
-		WordBank seededBank1 = new WordBank(firstLine);
-		String[] secondLine=makeLine(7,seededBank1);
+		WordBank seededBank = new WordBank(firstLine);
+		String[] secondLine=makeLine(7,seededBank);
 
 		haiku.add(secondLine);
 
 
-		WordBank seededBank2 = new WordBank(secondLine);
-		seededBank2.addToBank(firstLine);
+		
+		seededBank.addToBank(secondLine);
 
-		String[] thirdLine= makeLine(5,seededBank2);
+		String[] thirdLine= makeLine(5,seededBank);
 
 		haiku.add(thirdLine);
 
