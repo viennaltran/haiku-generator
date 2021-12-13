@@ -57,11 +57,8 @@ public class HaikuGUI extends JFrame {
 	}//end buildPanel method
 	//create inner class to handle button click
 
-	public  ArrayList<Word> nounBank = new ArrayList<Word>();
-	public ArrayList<Word> verbBank = new ArrayList<Word>();
-	public ArrayList<Word> adjBank = new ArrayList<Word>();
-	public ArrayList<Word> conjBank= new ArrayList<Word>();
-
+	
+	
 	private class ButtonHandler implements ActionListener
 	{
 
