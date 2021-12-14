@@ -23,10 +23,10 @@ public class HaikuGUI extends JFrame {
 	//declare GUI objects
 	private JPanel panel;
 	private JTextField keyword;
-	private JLabel lblMessage;
 	private JButton btnGenerateRand;
 	private JButton btnGenerateCustom;
 	private JTextArea results;
+	private JButton btnClear;
 	//constructor
 	public HaikuGUI()
 	{
@@ -44,21 +44,25 @@ public class HaikuGUI extends JFrame {
 		System.setProperty("myColor", "#89CFF0");
 		panel.setBackground(Color.getColor("myColor"));
 		btnGenerateRand = new JButton("Generate Random Haiku");
-		results = new JTextArea(20, 20);
+		results = new JTextArea(10, 15);
+		JScrollPane scroll=new JScrollPane(results);
 		keyword = new JTextField(20); 
 		btnGenerateCustom = new JButton("Generate Haiku");
+		btnClear = new JButton("Clear");
 		//add components to the panel
 		panel.add(btnGenerateRand);
 		panel.add(results);
+		panel.add(scroll);
 		panel.add(new JLabel("Enter key word(s): "));
 		panel.add(keyword);
 		panel.add(btnGenerateCustom);
+		panel.add(btnClear);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 		btnGenerateCustom.addActionListener(new ButtonHandler());
+		btnClear.addActionListener(new ButtonHandler());
 	}//end buildPanel method
 	//create inner class to handle button click
-
 
 
 	private class ButtonHandler implements ActionListener
@@ -67,6 +71,7 @@ public class HaikuGUI extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			
 			//which button clicked?
 			System.out.println(e.getActionCommand());
 			//returns the text on the button
@@ -74,6 +79,10 @@ public class HaikuGUI extends JFrame {
 			//System.out.println("Button clicked");
 			switch(e.getActionCommand())
 			{
+			case "Clear":
+				System.out.println("clear is clicked");
+				results.setText("");
+				break;
 			case "Generate Random Haiku":
 				results.setText("");
 
@@ -83,8 +92,6 @@ public class HaikuGUI extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-
 				break;
 			case "Generate Haiku":
 				try {
@@ -95,6 +102,7 @@ public class HaikuGUI extends JFrame {
 					e1.printStackTrace();
 				}
 				break;
+			
 			}//end switch
 
 		}//end actionPerformed
@@ -136,7 +144,6 @@ public class HaikuGUI extends JFrame {
 
 	}
 
-
 	private void generateCustomHaiku() throws JSONException {	
 
 		String keywordSave = keyword.getText();
@@ -155,7 +162,7 @@ public class HaikuGUI extends JFrame {
 			for (int i = 0; i < resultArray1.length()-1; i++) {
 				JSONObject resultObj1 = resultArray1.getJSONObject(i);
 
-				System.out.println(resultObj1.toString()+ "object1");
+				//System.out.println(resultObj1.toString()+ "object1");
 
 				if(resultObj1.toString().contains("tags"))
 				{
@@ -187,7 +194,7 @@ public class HaikuGUI extends JFrame {
 			for (int j = 0; j < resultArray2.length()-1; j++) {
 				JSONObject resultObj2 = resultArray2.getJSONObject(j);
 
-				System.out.println(resultObj2.toString()+ "object2");
+				//System.out.println(resultObj2.toString()+ "object2");
 				if(resultObj2.toString().contains("tags"))
 				{
 
@@ -305,7 +312,6 @@ public class HaikuGUI extends JFrame {
 		} return output;
 
 	}
-
 
 
 
