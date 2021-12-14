@@ -45,14 +45,12 @@ public class HaikuGUI extends JFrame {
 		panel.setBackground(Color.getColor("myColor"));
 		btnGenerateRand = new JButton("Generate Random Haiku");
 		results = new JTextArea(10, 15);
-		JScrollPane scroll=new JScrollPane(results);
 		keyword = new JTextField(20); 
 		btnGenerateCustom = new JButton("Generate Haiku");
 		btnClear = new JButton("Clear");
 		//add components to the panel
 		panel.add(btnGenerateRand);
 		panel.add(results);
-		panel.add(scroll);
 		panel.add(new JLabel("Enter key word(s): "));
 		panel.add(keyword);
 		panel.add(btnGenerateCustom);
@@ -80,12 +78,9 @@ public class HaikuGUI extends JFrame {
 			switch(e.getActionCommand())
 			{
 			case "Clear":
-				System.out.println("clear is clicked");
 				results.setText("");
 				break;
 			case "Generate Random Haiku":
-				results.setText("");
-
 				try {
 					generateRandomHaiku();
 				} catch (JSONException e1) {
@@ -95,7 +90,6 @@ public class HaikuGUI extends JFrame {
 				break;
 			case "Generate Haiku":
 				try {
-					results.setText("");
 					generateCustomHaiku();
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -113,6 +107,8 @@ public class HaikuGUI extends JFrame {
 	static ArrayList<String[]> haiku = new ArrayList<String[]>();
 
 	private void generateRandomHaiku() throws JSONException {	
+		
+		haiku.clear();
 
 		String[] firstLine= makeLine(5,defaultBank);
 
@@ -145,6 +141,8 @@ public class HaikuGUI extends JFrame {
 	}
 
 	private void generateCustomHaiku() throws JSONException {	
+		
+		haiku.clear();
 
 		String keywordSave = keyword.getText();
 
