@@ -75,11 +75,19 @@ public class HaikuGUI extends JFrame {
 			switch(e.getActionCommand())
 			{
 			case "Generate Random Haiku":
+				try {
+					results.setText("");
+					generateRandomHaiku();
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 
 				break;
 			case "Generate Haiku":
 				try {
+					results.setText("");
 					generateCustomHaiku();
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -95,11 +103,44 @@ public class HaikuGUI extends JFrame {
 
 	static ArrayList<String[]> haiku = new ArrayList<String[]>();
 
-	private void generateCustomHaiku() throws JSONException {
+	private void generateRandomHaiku() throws JSONException {	
+
+		String[] firstLine= makeLine(5,defaultBank);
+
+		haiku.add(firstLine);
+
+		WordBank seededBank = new WordBank(firstLine);
+		String[] secondLine=makeLine(7,seededBank);
+
+		haiku.add(secondLine);
+
+		seededBank.addToBank(secondLine);
+
+		String[] thirdLine= makeLine(5,seededBank);
+
+		haiku.add(thirdLine);
+
+		for(String[] l:haiku)
+		{
+			for(int i=0;i<l.length;i++)
+			{
+				System.out.print(l[i]+ " ");
+				results.append(l[i] + " ");
+
+			}
+			System.out.println();
+			results.append("\n");
+
+		}
+
+	}
+
+
+	private void generateCustomHaiku() throws JSONException {	
 
 		String keywordSave = keyword.getText();
 		JSONArray resultArray= makeRequest("words?rel_trg="+keywordSave+"&md=sp");
-		
+
 		//create a new wordbank with array
 		WordBank customBank = new WordBank();
 
@@ -138,9 +179,6 @@ public class HaikuGUI extends JFrame {
 			}
 		}
 
-
-
-
 		String[] firstKeywordLine= makeLine(5,customBank);
 
 		haiku.add(firstKeywordLine);
@@ -161,15 +199,18 @@ public class HaikuGUI extends JFrame {
 			for(int i=0;i<l.length;i++)
 			{
 				System.out.print(l[i]+ " ");
+				results.append(l[i] + " ");
+
 			}
 			System.out.println();
+			results.append("\n");
 
 		}
 
 	}
 
 	static WordBank defaultBank = new WordBank();
-	
+
 	public static String[] makeLine(int lineSyls,WordBank bank)
 	{
 		int sylCount=0;
@@ -225,7 +266,7 @@ public class HaikuGUI extends JFrame {
 
 
 
-	
+
 	private JSONArray makeRequest(String argument)
 	{
 
@@ -267,13 +308,13 @@ public class HaikuGUI extends JFrame {
 			//System.out.println(responseContent.toString());
 
 			JSONArray resultArray = new JSONArray(responseContent.toString());
-//			for (int i = 0; i < resultArray.length(); i++) {
-//				JSONObject resultObj = resultArray.getJSONObject(i);
-//				String word = resultObj.getString("word");
-//				int syllables = resultObj.getInt("numSyllables");
-//				JSONArray tags = resultObj.getJSONArray("tags");
-//				System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
-//			}
+			//			for (int i = 0; i < resultArray.length(); i++) {
+			//				JSONObject resultObj = resultArray.getJSONObject(i);
+			//				String word = resultObj.getString("word");
+			//				int syllables = resultObj.getInt("numSyllables");
+			//				JSONArray tags = resultObj.getJSONArray("tags");
+			//				System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
+			//			}
 
 		}
 		catch (MalformedURLException e) {
