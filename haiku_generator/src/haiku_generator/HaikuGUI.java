@@ -75,8 +75,11 @@ public class HaikuGUI extends JFrame {
 			switch(e.getActionCommand())
 			{
 			case "Generate Random Haiku":
+				results.setText("");
+			
 				try {
-					results.setText("");
+					
+					
 					generateRandomHaiku();
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -137,17 +140,21 @@ public class HaikuGUI extends JFrame {
 
 
 	private void generateCustomHaiku() throws JSONException {	
-
+		
 		String keywordSave = keyword.getText();
+		
 		JSONArray resultArray= makeRequest("words?rel_trg="+keywordSave+"&md=sp");
-
+		//System.out.println("result Array"+ resultArray.toString());
 		//create a new wordbank with array
-		WordBank customBank = new WordBank();
+		String[] placeholder= {""};
+		WordBank customBank = new WordBank(placeholder);
 
 		if(resultArray!=null)
 		{
 			for (int i = 0; i < resultArray.length()-1; i++) {
 				JSONObject resultObj = resultArray.getJSONObject(i);
+				
+				System.out.println(resultObj.toString()+ "object");
 				if(resultObj.toString().contains("tags"))
 				{
 					String word = resultObj.getString("word");
@@ -172,8 +179,11 @@ public class HaikuGUI extends JFrame {
 					{
 						customBank.verbBank.add(new Word(word,syllables,pos));
 					}
-
+					
+					
 				}
+				
+				
 
 
 			}
@@ -183,14 +193,14 @@ public class HaikuGUI extends JFrame {
 
 		haiku.add(firstKeywordLine);
 
-		WordBank seededBank = new WordBank(firstKeywordLine);
-		String[] secondLine=makeLine(7,seededBank);
+		customBank.addToBank(firstKeywordLine);
+		String[] secondLine=makeLine(7,customBank);
 
 		haiku.add(secondLine);
 
-		seededBank.addToBank(secondLine);
+		customBank.addToBank(secondLine);
 
-		String[] thirdLine= makeLine(5,seededBank);
+		String[] thirdLine= makeLine(5,customBank);
 
 		haiku.add(thirdLine);
 
@@ -235,7 +245,9 @@ public class HaikuGUI extends JFrame {
 				Word current;
 				current = bank.randomWord(s);
 				if(current==null)
+				{
 					current=defaultBank.randomWord(s);
+				}
 				sylCount=sylCount+current.getSyl();
 				output[i]=current.getText();
 				i++;
@@ -308,13 +320,14 @@ public class HaikuGUI extends JFrame {
 			//System.out.println(responseContent.toString());
 
 			JSONArray resultArray = new JSONArray(responseContent.toString());
-			//			for (int i = 0; i < resultArray.length(); i++) {
-			//				JSONObject resultObj = resultArray.getJSONObject(i);
-			//				String word = resultObj.getString("word");
-			//				int syllables = resultObj.getInt("numSyllables");
-			//				JSONArray tags = resultObj.getJSONArray("tags");
-			//				System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
-			//			}
+//						for (int i = 0; i < resultArray.length(); i++) {
+//							JSONObject resultObj = resultArray.getJSONObject(i);
+//							String word = resultObj.getString("word");
+//							int syllables = resultObj.getInt("numSyllables");
+//							JSONArray tags = resultObj.getJSONArray("tags");
+//							System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
+//						}
+			return resultArray;
 
 		}
 		catch (MalformedURLException e) {

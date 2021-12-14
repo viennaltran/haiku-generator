@@ -24,34 +24,42 @@ public class Main{
 	static ArrayList<String[]> haiku = new ArrayList<String[]>();
 
 	public static void main(String[] args) throws JSONException
+	
+	
 	{
-
-		String[] firstLine= makeLine(5,defaultBank);
-
-		haiku.add(firstLine);
-
-		WordBank seededBank = new WordBank(firstLine);
-		String[] secondLine=makeLine(7,seededBank);
-
-		haiku.add(secondLine);
-
-
+		//in button handler for custom haiku
+		//get the input, save words into array
+		//create a new wordbank with array instead of default 
 		
-		seededBank.addToBank(secondLine);
-
-		String[] thirdLine= makeLine(5,seededBank);
-
-		haiku.add(thirdLine);
-
-		for(String[] l:haiku)
-		{
-			for(int i=0;i<l.length;i++)
-			{
-				System.out.print(l[i]+ " ");
-			}
-			System.out.println();
-
-		}
+	
+		
+//		
+//		String[] firstLine= makeLine(5,defaultBank);
+//
+//		haiku.add(firstLine);
+//
+//		WordBank seededBank = new WordBank(firstLine);
+//		String[] secondLine=makeLine(7,seededBank);
+//
+//		haiku.add(secondLine);
+//
+//
+//		
+//		seededBank.addToBank(secondLine);
+//
+//		String[] thirdLine= makeLine(5,seededBank);
+//
+//		haiku.add(thirdLine);
+//
+//		for(String[] l:haiku)
+//		{
+//			for(int i=0;i<l.length;i++)
+//			{
+//				System.out.print(l[i]+ " ");
+//			}
+//			System.out.println();
+//
+//		}
 
 		//create an object
 		HaikuGUI frame = new HaikuGUI();
@@ -68,63 +76,59 @@ public class Main{
 
 	}
 
-	public static String[] makeLine(int lineSyls,WordBank bank)
-	{
-		int sylCount=0;
-		int runCount=0;
-
-
-		GrammarTree lineStructure= new GrammarTree();
-		lineStructure.generateTree(lineSyls);
-
-		ArrayList<String>  terminals =  lineStructure.terminalList();
-
-		String[] output= new String[terminals.size()];
-		int i=0;
-
-		while(sylCount != lineSyls)
-		{
-			// populate grammar structure with random words chosen from given bank
-			// if bank is empty, choose from the default bank
-			for(String s : terminals)
-			{
-
-				Word current;
-				current = bank.randomWord(s);
-				if(current==null)
-					current=defaultBank.randomWord(s);
-				sylCount=sylCount+current.getSyl();
-				output[i]=current.getText();
-				i++;
-
-
-
-			}
-
-
-			runCount++;
-
-
-			if(sylCount != lineSyls)
-			{
-				sylCount=0;
-				output = new String[terminals.size()];
-				i=0;
-			}
-			if(runCount>=15)
-			{//if grammar structure has too many words reset 
-				//System.out.println("!!!Reset!!!");
-				lineStructure.generateTree(lineSyls);
-				terminals= lineStructure.terminalList();
-				output= new String[terminals.size()];
-				i=0;
-				sylCount=0;
-				runCount=0;
-			}
-
-		} return output;
-
-	}
+//	public static String[] makeLine(int lineSyls,WordBank bank)
+//	{
+//		int sylCount=0;
+//		int runCount=0;
+//
+//
+//		GrammarTree lineStructure= new GrammarTree();
+//		lineStructure.generateTree(lineSyls);
+//
+//		ArrayList<String>  terminals =  lineStructure.terminalList();
+//
+//		String[] output= new String[terminals.size()];
+//		int i=0;
+//
+//		while(sylCount != lineSyls)
+//		{
+//			// populate grammar structure with random words chosen from given bank
+//			// if bank is empty, choose from the default bank
+//			for(String s : terminals)
+//			{
+//
+//				Word current;
+//				current = bank.randomWord(s);
+//				if(current==null)
+//					current=defaultBank.randomWord(s);
+//				sylCount=sylCount+current.getSyl();
+//				output[i]=current.getText();
+//				i++;
+//
+//			}
+//			runCount++;
+//
+//
+//			if(sylCount != lineSyls)
+//			{
+//				sylCount=0;
+//				output = new String[terminals.size()];
+//				i=0;
+//			}
+//			if(runCount>=15)
+//			{//if grammar structure has too many words reset 
+//				//System.out.println("!!!Reset!!!");
+//				lineStructure.generateTree(lineSyls);
+//				terminals= lineStructure.terminalList();
+//				output= new String[terminals.size()];
+//				i=0;
+//				sylCount=0;
+//				runCount=0;
+//			}
+//
+//		} return output;
+//
+//	}
 
 
 
