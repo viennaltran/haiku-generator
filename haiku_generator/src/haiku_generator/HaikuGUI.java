@@ -27,6 +27,9 @@ public class HaikuGUI extends JFrame {
 	private JButton btnGenerateCustom;
 	private JTextArea results;
 	private JButton btnClear;
+	private JLabel nounCounts;
+	private JLabel verbCounts;
+	private JLabel adjCounts;
 	//constructor
 	public HaikuGUI()
 	{
@@ -48,13 +51,19 @@ public class HaikuGUI extends JFrame {
 		keyword = new JTextField(20); 
 		btnGenerateCustom = new JButton("Generate Haiku");
 		btnClear = new JButton("Clear");
+		nounCounts = new JLabel();
+		verbCounts = new JLabel();
+		adjCounts = new JLabel();
 		//add components to the panel
 		panel.add(btnGenerateRand);
 		panel.add(results);
-		panel.add(new JLabel("Enter key word(s): "));
+		panel.add(new JLabel("Enter a keyword: "));
 		panel.add(keyword);
 		panel.add(btnGenerateCustom);
 		panel.add(btnClear);
+		panel.add(nounCounts);
+		panel.add(verbCounts);
+		panel.add(adjCounts);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 		btnGenerateCustom.addActionListener(new ButtonHandler());
@@ -79,6 +88,9 @@ public class HaikuGUI extends JFrame {
 			{
 			case "Clear":
 				results.setText("");
+				nounCounts.setText("");
+				verbCounts.setText("");
+				adjCounts.setText("");
 				break;
 			case "Generate Random Haiku":
 				try {
@@ -137,6 +149,10 @@ public class HaikuGUI extends JFrame {
 			results.append("\n");
 
 		}
+		
+		nounCounts.setText("number of nouns: "+ 1);
+		verbCounts.setText("number of verbs: "+ 2);
+		adjCounts.setText("number of adjectives: "+ 3);
 
 	}
 
@@ -251,6 +267,10 @@ public class HaikuGUI extends JFrame {
 			results.append("\n");
 
 		}
+		
+		nounCounts.setText("number of nouns: "+ 4);
+		verbCounts.setText("number of verbs: "+5);
+		adjCounts.setText("number of adjectives: "+6);
 
 	}
 
