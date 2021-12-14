@@ -95,6 +95,7 @@ public class WordBank
 			String request= seeds[s].replaceAll("\s+","+");
 			
 			JSONArray resultArray= makeRequest("words?ml="+request+"&md=sp");
+			//System.out.println("result Array"+ resultArray.toString());
 			 
 			 if(resultArray!=null)
 			 {
@@ -135,13 +136,6 @@ public class WordBank
 		}
 		
 	 }
-	 
-	
-	 
-	
-	
-	 
-	 
 	 
 	 
 	 private JSONArray makeRequest(String argument)

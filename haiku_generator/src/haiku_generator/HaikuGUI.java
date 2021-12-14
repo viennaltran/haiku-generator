@@ -76,10 +76,8 @@ public class HaikuGUI extends JFrame {
 			{
 			case "Generate Random Haiku":
 				results.setText("");
-			
+
 				try {
-					
-					
 					generateRandomHaiku();
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
@@ -140,54 +138,85 @@ public class HaikuGUI extends JFrame {
 
 
 	private void generateCustomHaiku() throws JSONException {	
-		
+
 		String keywordSave = keyword.getText();
-		
-		JSONArray resultArray= makeRequest("words?rel_trg="+keywordSave+"&md=sp");
+
+		//making two requests
+		JSONArray resultArray1= makeRequest("words?rel_trg="+keywordSave+"&md=sp");
+		JSONArray resultArray2= makeRequest("words?ml="+keywordSave+"&md=sp"); 
+
 		//System.out.println("result Array"+ resultArray.toString());
 		//create a new wordbank with array
 		String[] placeholder= {""};
 		WordBank customBank = new WordBank(placeholder);
 
-		if(resultArray!=null)
+		if(resultArray1!=null && resultArray2!=null)
 		{
-			for (int i = 0; i < resultArray.length()-1; i++) {
-				JSONObject resultObj = resultArray.getJSONObject(i);
-				
-				System.out.println(resultObj.toString()+ "object");
-				if(resultObj.toString().contains("tags"))
-				{
-					String word = resultObj.getString("word");
-					int syllables = resultObj.getInt("numSyllables");
+			for (int i = 0; i < resultArray1.length()-1; i++) {
+				JSONObject resultObj1 = resultArray1.getJSONObject(i);
 
-					JSONArray tags = resultObj.getJSONArray("tags");
+				System.out.println(resultObj1.toString()+ "object1");
+
+				if(resultObj1.toString().contains("tags"))
+				{
+					String word1 = resultObj1.getString("word");
+					int syllables1 = resultObj1.getInt("numSyllables");
+					JSONArray tags1 = resultObj1.getJSONArray("tags");
 					String pos="";
 
-					if(tags.length()>0) {
-						pos=(String) tags.get(tags.length()-1);
+					if(tags1.length()>0) {
+						pos=(String) tags1.get(tags1.length()-1);
 					}
 
 					if (pos.equals("n"))
 					{
-						customBank.nounBank.add(new Word(word,syllables,pos));
+						customBank.nounBank.add(new Word(word1,syllables1,pos));
 					}
 					else if(pos.equals("adj"))
 					{
-						customBank.adjBank.add(new Word(word,syllables,pos));
+						customBank.adjBank.add(new Word(word1,syllables1,pos));
 					}
 					else if(pos.equals("v"))
 					{
-						customBank.verbBank.add(new Word(word,syllables,pos));
+						customBank.verbBank.add(new Word(word1,syllables1,pos));
 					}
-					
-					
+
 				}
-				
-				
+			}// end of first for loop
 
+			for (int j = 0; j < resultArray2.length()-1; j++) {
+				JSONObject resultObj2 = resultArray2.getJSONObject(j);
 
-			}
-		}
+				System.out.println(resultObj2.toString()+ "object2");
+				if(resultObj2.toString().contains("tags"))
+				{
+
+					String word2 = resultObj2.getString("word");
+					int syllables2 = resultObj2.getInt("numSyllables");
+
+					JSONArray tags2 = resultObj2.getJSONArray("tags");
+					String pos="";
+
+					if(tags2.length()>0) {
+						pos=(String) tags2.get(tags2.length()-1);
+					}
+
+					if (pos.equals("n"))
+					{
+						customBank.nounBank.add(new Word(word2,syllables2,pos));
+					}
+					else if(pos.equals("adj"))
+					{
+						customBank.adjBank.add(new Word(word2,syllables2,pos));
+					}
+					else if(pos.equals("v"))
+					{
+						customBank.verbBank.add(new Word(word2,syllables2,pos));
+					}
+				}
+
+			}//end of second for loop 
+		}// end of if
 
 		String[] firstKeywordLine= makeLine(5,customBank);
 
@@ -206,6 +235,7 @@ public class HaikuGUI extends JFrame {
 
 		for(String[] l:haiku)
 		{
+
 			for(int i=0;i<l.length;i++)
 			{
 				System.out.print(l[i]+ " ");
@@ -320,13 +350,13 @@ public class HaikuGUI extends JFrame {
 			//System.out.println(responseContent.toString());
 
 			JSONArray resultArray = new JSONArray(responseContent.toString());
-//						for (int i = 0; i < resultArray.length(); i++) {
-//							JSONObject resultObj = resultArray.getJSONObject(i);
-//							String word = resultObj.getString("word");
-//							int syllables = resultObj.getInt("numSyllables");
-//							JSONArray tags = resultObj.getJSONArray("tags");
-//							System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
-//						}
+			//						for (int i = 0; i < resultArray.length(); i++) {
+			//							JSONObject resultObj = resultArray.getJSONObject(i);
+			//							String word = resultObj.getString("word");
+			//							int syllables = resultObj.getInt("numSyllables");
+			//							JSONArray tags = resultObj.getJSONArray("tags");
+			//							System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
+			//						}
 			return resultArray;
 
 		}
