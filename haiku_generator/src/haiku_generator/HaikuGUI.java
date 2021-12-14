@@ -55,6 +55,7 @@ public class HaikuGUI extends JFrame {
 		panel.add(btnGenerateCustom);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
+		btnGenerateCustom.addActionListener(new ButtonHandler());
 	}//end buildPanel method
 	//create inner class to handle button click
 
@@ -75,11 +76,15 @@ public class HaikuGUI extends JFrame {
 			{
 			case "Generate Random Haiku":
 
+
 				break;
 			case "Generate Haiku":
-				String keywordSave = keyword.getText();
-				System.out.println("keyword is " + keywordSave);
-				JSONArray resultArray= makeRequest("words?ml="+keywordSave+"&md=sp");
+				try {
+					generateCustomHaiku();
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				break;
 			}//end switch
 
@@ -88,6 +93,139 @@ public class HaikuGUI extends JFrame {
 	}//end actionPerformed
 
 
+	static ArrayList<String[]> haiku = new ArrayList<String[]>();
+
+	private void generateCustomHaiku() throws JSONException {
+
+		String keywordSave = keyword.getText();
+		JSONArray resultArray= makeRequest("words?rel_trg="+keywordSave+"&md=sp");
+		
+		//create a new wordbank with array
+		WordBank customBank = new WordBank();
+
+		if(resultArray!=null)
+		{
+			for (int i = 0; i < resultArray.length()-1; i++) {
+				JSONObject resultObj = resultArray.getJSONObject(i);
+				if(resultObj.toString().contains("tags"))
+				{
+					String word = resultObj.getString("word");
+					int syllables = resultObj.getInt("numSyllables");
+
+					JSONArray tags = resultObj.getJSONArray("tags");
+					String pos="";
+
+					if(tags.length()>0) {
+						pos=(String) tags.get(tags.length()-1);
+					}
+
+					if (pos.equals("n"))
+					{
+						customBank.nounBank.add(new Word(word,syllables,pos));
+					}
+					else if(pos.equals("adj"))
+					{
+						customBank.adjBank.add(new Word(word,syllables,pos));
+					}
+					else if(pos.equals("v"))
+					{
+						customBank.verbBank.add(new Word(word,syllables,pos));
+					}
+
+				}
+
+
+			}
+		}
+
+
+
+
+		String[] firstKeywordLine= makeLine(5,customBank);
+
+		haiku.add(firstKeywordLine);
+
+		WordBank seededBank = new WordBank(firstKeywordLine);
+		String[] secondLine=makeLine(7,seededBank);
+
+		haiku.add(secondLine);
+
+		seededBank.addToBank(secondLine);
+
+		String[] thirdLine= makeLine(5,seededBank);
+
+		haiku.add(thirdLine);
+
+		for(String[] l:haiku)
+		{
+			for(int i=0;i<l.length;i++)
+			{
+				System.out.print(l[i]+ " ");
+			}
+			System.out.println();
+
+		}
+
+	}
+
+	static WordBank defaultBank = new WordBank();
+	
+	public static String[] makeLine(int lineSyls,WordBank bank)
+	{
+		int sylCount=0;
+		int runCount=0;
+
+
+		GrammarTree lineStructure= new GrammarTree();
+		lineStructure.generateTree(lineSyls);
+
+		ArrayList<String>  terminals =  lineStructure.terminalList();
+
+		String[] output= new String[terminals.size()];
+		int i=0;
+
+		while(sylCount != lineSyls)
+		{
+			// populate grammar structure with random words chosen from given bank
+			// if bank is empty, choose from the default bank
+			for(String s : terminals)
+			{
+
+				Word current;
+				current = bank.randomWord(s);
+				if(current==null)
+					current=defaultBank.randomWord(s);
+				sylCount=sylCount+current.getSyl();
+				output[i]=current.getText();
+				i++;
+			}
+
+			runCount++;
+
+			if(sylCount != lineSyls)
+			{
+				sylCount=0;
+				output = new String[terminals.size()];
+				i=0;
+			}
+			if(runCount>=15)
+			{//if grammar structure has too many words reset 
+				//System.out.println("!!!Reset!!!");
+				lineStructure.generateTree(lineSyls);
+				terminals= lineStructure.terminalList();
+				output= new String[terminals.size()];
+				i=0;
+				sylCount=0;
+				runCount=0;
+			}
+
+		} return output;
+
+	}
+
+
+
+	
 	private JSONArray makeRequest(String argument)
 	{
 
@@ -129,13 +267,13 @@ public class HaikuGUI extends JFrame {
 			//System.out.println(responseContent.toString());
 
 			JSONArray resultArray = new JSONArray(responseContent.toString());
-			for (int i = 0; i < resultArray.length(); i++) {
-				JSONObject resultObj = resultArray.getJSONObject(i);
-				String word = resultObj.getString("word");
-				int syllables = resultObj.getInt("numSyllables");
-				JSONArray tags = resultObj.getJSONArray("tags");
-				System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
-			}
+//			for (int i = 0; i < resultArray.length(); i++) {
+//				JSONObject resultObj = resultArray.getJSONObject(i);
+//				String word = resultObj.getString("word");
+//				int syllables = resultObj.getInt("numSyllables");
+//				JSONArray tags = resultObj.getJSONArray("tags");
+//				System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
+//			}
 
 		}
 		catch (MalformedURLException e) {
