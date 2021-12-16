@@ -80,6 +80,14 @@ public class HaikuGUI extends JFrame {
 	static int verbCount = 0;
 	static int adjCount = 0;
 	static int conjCount = 0;
+	static int numSyl =0;
+	static int syl1Word =0;
+	static int syl2Word = 0;
+	static int syl3Word =0;
+	static int syl4Word = 0;
+	static int syl5Word =0;
+	static int syl6Word = 0;
+	static int syl7Word =0;
 
 	private class ButtonHandler implements ActionListener
 	{
@@ -96,16 +104,7 @@ public class HaikuGUI extends JFrame {
 			switch(e.getActionCommand())
 			{
 			case "Clear":
-				results.setText("");
-				nounCounts.setText("");
-				verbCounts.setText("");
-				adjCounts.setText("");
-				conjCounts.setText("");
-				nounCount= 0;
-				verbCount = 0;
-				adjCount = 0;
-				conjCount = 0;
-
+				reset();
 				break;
 			case "Generate Random Haiku":
 				try {
@@ -133,6 +132,8 @@ public class HaikuGUI extends JFrame {
 
 	static ArrayList<String[]> haiku = new ArrayList<String[]>();
 
+
+
 	private void generateRandomHaiku() throws JSONException {	
 
 		haiku.clear();
@@ -152,23 +153,12 @@ public class HaikuGUI extends JFrame {
 
 		haiku.add(thirdLine);
 
-		for(String[] l:haiku)
-		{
-			for(int i=0;i<l.length;i++)
-			{
-				System.out.print(l[i]+ " ");
-				results.append(l[i] + " ");
-				showSyllableCounts(l[i]);
-
-			}
-			System.out.println();
-			results.append("\n");
-
-		}
-
+		populateHaiku();
 		showStats();
 
 	}
+
+
 
 	private void generateCustomHaiku() throws JSONException {	
 
@@ -274,22 +264,58 @@ public class HaikuGUI extends JFrame {
 
 		haiku.add(thirdLine);
 
+		populateHaiku();
+
+		showStats();
+
+
+	}
+
+	private void populateHaiku() {
+
 		for(String[] l:haiku)
 		{
-
 			for(int i=0;i<l.length;i++)
 			{
 				System.out.print(l[i]+ " ");
 				results.append(l[i] + " ");
-				showSyllableCounts(l[i]);
+				numSyl = SyllableCount(l[i]);
+
+				if(numSyl==1)
+				{
+					syl1Word++;
+					//System.out.println("$$$$$$$$"+syl1Word);
+				}
+				else if (numSyl ==2)
+				{
+					syl2Word++;
+				}
+				else if (numSyl ==3)
+				{
+					syl3Word++;
+				}
+				else if (numSyl ==4)
+				{
+					syl4Word++;
+				}
+				else if (numSyl ==5)
+				{
+					syl5Word++;
+				}
+				else if (numSyl ==6)
+				{
+					syl6Word++;
+				}
+				else {
+					syl7Word++;
+				}
+
 
 			}
 			System.out.println();
 			results.append("\n");
 
 		}
-
-		showStats();
 
 
 	}
@@ -483,10 +509,29 @@ public class HaikuGUI extends JFrame {
 		}
 	}
 
-	private void showSyllableCounts(String haikuWord) {
-		System.out.println("syllables for string " + haikuWord + " is " + SyllableCount(haikuWord));
-		
+	public void reset() {
+		results.setText("");
+		nounCounts.setText("");
+		verbCounts.setText("");
+		adjCounts.setText("");
+		conjCounts.setText("");
+		nounCount= 0;
+		verbCount = 0;
+		adjCount = 0;
+		conjCount = 0;
+		numSyl =0;
+		syl1Word =0;
+		syl2Word = 0;
+		syl3Word =0;
+		syl4Word = 0;
+		syl5Word =0;
+		syl6Word = 0;
+		syl7Word =0;
 	}
+
+	//	private void showSyllableCounts(String haikuWord) {
+	//		System.out.println("syllables for string " + haikuWord + " is " + SyllableCount(haikuWord));	
+	//	}
 
 
 }
