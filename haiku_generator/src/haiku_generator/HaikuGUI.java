@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -31,7 +32,7 @@ public class HaikuGUI extends JFrame {
 	private JLabel verbCounts;
 	private JLabel adjCounts;
 	private JLabel conjCounts; 
-	
+
 	//constructor
 	public HaikuGUI()
 	{
@@ -79,7 +80,7 @@ public class HaikuGUI extends JFrame {
 	static int verbCount = 0;
 	static int adjCount = 0;
 	static int conjCount = 0;
-	
+
 	private class ButtonHandler implements ActionListener
 	{
 
@@ -104,7 +105,7 @@ public class HaikuGUI extends JFrame {
 				verbCount = 0;
 				adjCount = 0;
 				conjCount = 0;
-				
+
 				break;
 			case "Generate Random Haiku":
 				try {
@@ -157,6 +158,7 @@ public class HaikuGUI extends JFrame {
 			{
 				System.out.print(l[i]+ " ");
 				results.append(l[i] + " ");
+				showSyllableCounts(l[i]);
 
 			}
 			System.out.println();
@@ -194,7 +196,7 @@ public class HaikuGUI extends JFrame {
 				{
 					String word1 = resultObj1.getString("word");
 					word1 = word1.replaceAll("\s+","-");
-					
+
 					int syllables1 = resultObj1.getInt("numSyllables");
 					JSONArray tags1 = resultObj1.getJSONArray("tags");
 					String pos="";
@@ -228,7 +230,7 @@ public class HaikuGUI extends JFrame {
 
 					String word2 = resultObj2.getString("word");
 					word2 = word2.replaceAll("\s+","-");
-					
+
 					int syllables2 = resultObj2.getInt("numSyllables");
 
 					JSONArray tags2 = resultObj2.getJSONArray("tags");
@@ -279,6 +281,7 @@ public class HaikuGUI extends JFrame {
 			{
 				System.out.print(l[i]+ " ");
 				results.append(l[i] + " ");
+				showSyllableCounts(l[i]);
 
 			}
 			System.out.println();
@@ -287,6 +290,7 @@ public class HaikuGUI extends JFrame {
 		}
 
 		showStats();
+
 
 	}
 
@@ -346,7 +350,7 @@ public class HaikuGUI extends JFrame {
 			}
 
 		}
-		
+
 		//finalized pos
 		for(String t:terminals)
 		{
@@ -363,7 +367,7 @@ public class HaikuGUI extends JFrame {
 			else {
 				conjCount++;
 			}
-			System.out.println(t);
+			//System.out.println(t);
 
 		}
 
@@ -437,6 +441,51 @@ public class HaikuGUI extends JFrame {
 		adjCounts.setText("The number of adjectives: "+ adjCount);
 		conjCounts.setText("The number of conjugations: "+ conjCount);
 
+	}
+
+	static public int SyllableCount(String s) {
+		int count = 0;
+		s = s.toLowerCase(); 
+
+		for (int i = 0; i < s.length(); i++) { // traversing till length of string
+			if (s.charAt(i) == '\"' || s.charAt(i) == '\'' || s.charAt(i) == '-' || s.charAt(i) == ',' || s.charAt(i) == ')' || s.charAt(i) == '(') {
+				// if at any point, we encounter any such expression, we substring the string from start till that point and further.
+				s = s.substring(0,i) + s.substring(i+1, s.length());
+			}
+		}
+
+		boolean isPrevVowel = false;
+
+		for (int j = 0; j < s.length(); j++) {
+			if (s.contains("a") || s.contains("e") || s.contains("i") || s.contains("o") || s.contains("u")) {
+				// checking if character is a vowel and if the last letter of the word is 'e' or not
+				if (isVowel(s.charAt(j)) && !((s.charAt(j) == 'e') && (j == s.length()-1))) {
+					if (isPrevVowel == false) {
+						count++;
+						isPrevVowel = true;
+					}
+				} else {
+					isPrevVowel = false;
+				}
+			} else {
+				count++;
+				break;
+			}
+		}
+		return count;
+	}
+
+	static public boolean isVowel(char c) {
+		if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void showSyllableCounts(String haikuWord) {
+		System.out.println("syllables for string " + haikuWord + " is " + SyllableCount(haikuWord));
+		
 	}
 
 
