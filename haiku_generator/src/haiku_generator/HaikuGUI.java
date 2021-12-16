@@ -31,7 +31,15 @@ public class HaikuGUI extends JFrame {
 	private JLabel nounCounts;
 	private JLabel verbCounts;
 	private JLabel adjCounts;
-	private JLabel conjCounts; 
+	private JLabel conjCounts;
+	private JLabel syl1;
+	private JLabel syl2;
+	private JLabel syl3;
+	private JLabel syl4;
+	private JLabel syl5;
+	private JLabel syl6;
+	private JLabel syl7;
+
 
 	//constructor
 	public HaikuGUI()
@@ -58,6 +66,14 @@ public class HaikuGUI extends JFrame {
 		verbCounts = new JLabel();
 		adjCounts = new JLabel();
 		conjCounts = new JLabel();
+		syl1 = new JLabel();
+		syl2 = new JLabel();
+		syl3 = new JLabel();
+		syl4 = new JLabel();
+		syl5 = new JLabel();
+		syl6 = new JLabel();
+		syl7 = new JLabel();
+
 		//add components to the panel
 		panel.add(btnGenerateRand);
 		panel.add(results);
@@ -69,6 +85,13 @@ public class HaikuGUI extends JFrame {
 		panel.add(verbCounts);
 		panel.add(adjCounts);
 		panel.add(conjCounts);
+		panel.add(syl1);
+		panel.add(syl2);
+		panel.add(syl3);
+		panel.add(syl4);
+		panel.add(syl5);
+		panel.add(syl6);
+		panel.add(syl7);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 		btnGenerateCustom.addActionListener(new ButtonHandler());
@@ -250,7 +273,6 @@ public class HaikuGUI extends JFrame {
 		String[] firstKeywordLine= makeLine(5,customBank);
 
 
-
 		haiku.add(firstKeywordLine);
 
 		customBank.addToBank(firstKeywordLine);
@@ -284,7 +306,6 @@ public class HaikuGUI extends JFrame {
 				if(numSyl==1)
 				{
 					syl1Word++;
-					//System.out.println("$$$$$$$$"+syl1Word);
 				}
 				else if (numSyl ==2)
 				{
@@ -309,7 +330,6 @@ public class HaikuGUI extends JFrame {
 				else {
 					syl7Word++;
 				}
-
 
 			}
 			System.out.println();
@@ -466,6 +486,21 @@ public class HaikuGUI extends JFrame {
 		verbCounts.setText("The number of verbs: "+ verbCount);
 		adjCounts.setText("The number of adjectives: "+ adjCount);
 		conjCounts.setText("The number of conjugations: "+ conjCount);
+		
+		if(syl1Word > 0)
+		syl1.setText("The number of one syllable words: "+ syl1Word);
+		if(syl2Word > 0)
+		syl2.setText("The number of two syllable words: "+ syl2Word);
+		if(syl3Word > 0)
+		syl3.setText("The number of three syllable words: "+ syl3Word);
+		if(syl4Word > 0)
+		syl4.setText("The number of four syllable words: "+ syl4Word);
+		if(syl5Word > 0)
+		syl5.setText("The number of five syllable words: "+ syl5Word);
+		if(syl6Word > 0)
+		syl6.setText("The number of six syllable words: "+ syl6Word);
+		if(syl7Word > 0)
+		syl7.setText("The number of seven syllable words: "+ syl7Word);
 
 	}
 
@@ -511,10 +546,18 @@ public class HaikuGUI extends JFrame {
 
 	public void reset() {
 		results.setText("");
+		keyword.setText("");
 		nounCounts.setText("");
 		verbCounts.setText("");
 		adjCounts.setText("");
 		conjCounts.setText("");
+		syl1.setText("");
+		syl2.setText("");
+		syl3.setText("");
+		syl4.setText("");
+		syl5.setText("");
+		syl6.setText("");
+		syl7.setText("");
 		nounCount= 0;
 		verbCount = 0;
 		adjCount = 0;
@@ -528,10 +571,5 @@ public class HaikuGUI extends JFrame {
 		syl6Word = 0;
 		syl7Word =0;
 	}
-
-	//	private void showSyllableCounts(String haikuWord) {
-	//		System.out.println("syllables for string " + haikuWord + " is " + SyllableCount(haikuWord));	
-	//	}
-
 
 }
