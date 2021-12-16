@@ -104,6 +104,8 @@ public class WordBank
 					if(resultObj.toString().contains("tags"))
 					{
 					String word = resultObj.getString("word");
+					word = word.replaceAll("\s+","-");
+					
 					int syllables = resultObj.getInt("numSyllables");
 					
 					JSONArray tags = resultObj.getJSONArray("tags");

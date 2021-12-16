@@ -193,6 +193,8 @@ public class HaikuGUI extends JFrame {
 				if(resultObj1.toString().contains("tags"))
 				{
 					String word1 = resultObj1.getString("word");
+					word1 = word1.replaceAll("\s+","-");
+					
 					int syllables1 = resultObj1.getInt("numSyllables");
 					JSONArray tags1 = resultObj1.getJSONArray("tags");
 					String pos="";
@@ -225,6 +227,8 @@ public class HaikuGUI extends JFrame {
 				{
 
 					String word2 = resultObj2.getString("word");
+					word2 = word2.replaceAll("\s+","-");
+					
 					int syllables2 = resultObj2.getInt("numSyllables");
 
 					JSONArray tags2 = resultObj2.getJSONArray("tags");
