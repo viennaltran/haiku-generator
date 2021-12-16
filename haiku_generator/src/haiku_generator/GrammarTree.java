@@ -50,15 +50,18 @@ public class GrammarTree {
 		{
 			if(node.grammarSymbol.contains("Noun")){
 				terminals.add("n");
+		
 				
 			}
 			else if(node.grammarSymbol.contains("Verb")) {
 				terminals.add("v");
+			
 				
 				
 			}else if (node.grammarSymbol.contains("Adjective"))
 			{
 				terminals.add("adj");
+			
 				
 			
 			}else if(node.grammarSymbol.contains("Conj"))
@@ -73,12 +76,9 @@ public class GrammarTree {
 		for (ASTNode n : node.children)
 		{
 			  terminalListHelpler(n,terminals);
-			  
 	
 		}
-		
-		
-		
+			
 		return terminals;
 		
 		
@@ -88,6 +88,8 @@ public class GrammarTree {
 	// helper function
 	// returns the total number of syllables in this node
 	private void expandNode5(ASTNode node) {
+		
+		
 		Random rand = new Random();
 		if(node.grammarSymbol.equals("Start"))
 		{
@@ -136,7 +138,6 @@ public class GrammarTree {
 			}
 			
 		}
-			
 		
 	}
 	
@@ -175,8 +176,6 @@ public class GrammarTree {
 				node.children.add(child4);
 				expandNode7(child1);
 				
-				
-				
 			}
 			
 		}else if (node.grammarSymbol.equals("NounPhrase"))
@@ -198,6 +197,8 @@ public class GrammarTree {
 		
 		}
 		
+		
+	
 	
 	}
 

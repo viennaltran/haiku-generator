@@ -30,6 +30,8 @@ public class HaikuGUI extends JFrame {
 	private JLabel nounCounts;
 	private JLabel verbCounts;
 	private JLabel adjCounts;
+	private JLabel conjCounts;
+	
 	//constructor
 	public HaikuGUI()
 	{
@@ -54,6 +56,7 @@ public class HaikuGUI extends JFrame {
 		nounCounts = new JLabel();
 		verbCounts = new JLabel();
 		adjCounts = new JLabel();
+		conjCounts = new JLabel();
 		//add components to the panel
 		panel.add(btnGenerateRand);
 		panel.add(results);
@@ -64,6 +67,7 @@ public class HaikuGUI extends JFrame {
 		panel.add(nounCounts);
 		panel.add(verbCounts);
 		panel.add(adjCounts);
+		panel.add(conjCounts);
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 		btnGenerateCustom.addActionListener(new ButtonHandler());
@@ -71,14 +75,18 @@ public class HaikuGUI extends JFrame {
 	}//end buildPanel method
 	//create inner class to handle button click
 
-
+	static int nounCount= 0;
+	static int verbCount = 0;
+	static int adjCount = 0;
+	static int conjCount = 0;
+	
 	private class ButtonHandler implements ActionListener
 	{
 
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			
+
 			//which button clicked?
 			System.out.println(e.getActionCommand());
 			//returns the text on the button
@@ -91,6 +99,12 @@ public class HaikuGUI extends JFrame {
 				nounCounts.setText("");
 				verbCounts.setText("");
 				adjCounts.setText("");
+				conjCounts.setText("");
+				nounCount= 0;
+				verbCount = 0;
+				adjCount = 0;
+				conjCount = 0;
+				
 				break;
 			case "Generate Random Haiku":
 				try {
@@ -108,7 +122,7 @@ public class HaikuGUI extends JFrame {
 					e1.printStackTrace();
 				}
 				break;
-			
+
 			}//end switch
 
 		}//end actionPerformed
@@ -119,7 +133,7 @@ public class HaikuGUI extends JFrame {
 	static ArrayList<String[]> haiku = new ArrayList<String[]>();
 
 	private void generateRandomHaiku() throws JSONException {	
-		
+
 		haiku.clear();
 
 		String[] firstLine= makeLine(5,defaultBank);
@@ -149,15 +163,13 @@ public class HaikuGUI extends JFrame {
 			results.append("\n");
 
 		}
-		
-		nounCounts.setText("number of nouns: "+ 1);
-		verbCounts.setText("number of verbs: "+ 2);
-		adjCounts.setText("number of adjectives: "+ 3);
+
+		showStats();
 
 	}
 
 	private void generateCustomHaiku() throws JSONException {	
-		
+
 		haiku.clear();
 
 		String keywordSave = keyword.getText();
@@ -241,6 +253,8 @@ public class HaikuGUI extends JFrame {
 
 		String[] firstKeywordLine= makeLine(5,customBank);
 
+
+
 		haiku.add(firstKeywordLine);
 
 		customBank.addToBank(firstKeywordLine);
@@ -267,10 +281,8 @@ public class HaikuGUI extends JFrame {
 			results.append("\n");
 
 		}
-		
-		nounCounts.setText("number of nouns: "+ 4);
-		verbCounts.setText("number of verbs: "+5);
-		adjCounts.setText("number of adjectives: "+6);
+
+		showStats();
 
 	}
 
@@ -306,6 +318,7 @@ public class HaikuGUI extends JFrame {
 				sylCount=sylCount+current.getSyl();
 				output[i]=current.getText();
 				i++;
+
 			}
 
 			runCount++;
@@ -315,6 +328,7 @@ public class HaikuGUI extends JFrame {
 				sylCount=0;
 				output = new String[terminals.size()];
 				i=0;
+
 			}
 			if(runCount>=15)
 			{//if grammar structure has too many words reset 
@@ -327,7 +341,29 @@ public class HaikuGUI extends JFrame {
 				runCount=0;
 			}
 
-		} return output;
+		}
+		
+		//finalized pos
+		for(String t:terminals)
+		{
+			if(t.equals("n"))
+			{
+				nounCount++;
+			}
+			else if (t.equals("adj")) {
+				adjCount++;
+			}
+			else if (t.equals("v")){
+				verbCount++;
+			}
+			else {
+				conjCount++;
+			}
+			System.out.println(t);
+
+		}
+
+		return output;
 
 	}
 
@@ -374,13 +410,6 @@ public class HaikuGUI extends JFrame {
 			//System.out.println(responseContent.toString());
 
 			JSONArray resultArray = new JSONArray(responseContent.toString());
-			//						for (int i = 0; i < resultArray.length(); i++) {
-			//							JSONObject resultObj = resultArray.getJSONObject(i);
-			//							String word = resultObj.getString("word");
-			//							int syllables = resultObj.getInt("numSyllables");
-			//							JSONArray tags = resultObj.getJSONArray("tags");
-			//							System.out.println(word + " has " + syllables + " syllables " +"POS : "+tags.get(tags.length()-1));
-			//						}
 			return resultArray;
 
 		}
@@ -395,6 +424,15 @@ public class HaikuGUI extends JFrame {
 		}
 		//					
 		return null;
+	}
+
+	private void showStats() {
+
+		nounCounts.setText("The number of nouns: "+ nounCount);
+		verbCounts.setText("The number of verbs: "+ verbCount);
+		adjCounts.setText("The number of adjectives: "+ adjCount);
+		conjCounts.setText("The number of conjugations: "+ conjCount);
+
 	}
 
 
