@@ -30,7 +30,7 @@ public class HaikuGUI extends JFrame {
 	private JLabel nounCounts;
 	private JLabel verbCounts;
 	private JLabel adjCounts;
-	private JLabel conjCounts;
+	private JLabel conjCounts; 
 	
 	//constructor
 	public HaikuGUI()
