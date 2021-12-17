@@ -132,6 +132,7 @@ public class HaikuGUI extends JFrame {
 			case "Generate Random Haiku":
 				try {
 					generateRandomHaiku();
+					results.append("\n");
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -140,6 +141,7 @@ public class HaikuGUI extends JFrame {
 			case "Generate Haiku":
 				try {
 					generateCustomHaiku();
+					results.append("\n");
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
