@@ -39,11 +39,12 @@ public class HaikuGUI extends JFrame {
 	private JLabel syl5;
 	private JLabel syl6;
 	private JLabel syl7;
-
+	
 
 	//constructor
 	public HaikuGUI()
 	{
+
 		//give frame a title
 		setTitle("Haiku Generator");
 		//call method to "build" the components on the panel
@@ -55,6 +56,9 @@ public class HaikuGUI extends JFrame {
 	{
 		//create GUI objects
 		panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		System.setProperty("myColor", "#89CFF0");
 		panel.setBackground(Color.getColor("myColor"));
 		btnGenerateRand = new JButton("Generate Random Haiku");
@@ -92,6 +96,7 @@ public class HaikuGUI extends JFrame {
 		panel.add(syl5);
 		panel.add(syl6);
 		panel.add(syl7);
+		
 		//connect button to action
 		btnGenerateRand.addActionListener(new ButtonHandler());
 		btnGenerateCustom.addActionListener(new ButtonHandler());
@@ -484,25 +489,26 @@ public class HaikuGUI extends JFrame {
 
 	private void showStats() {
 
-		nounCounts.setText("The number of nouns: "+ nounCount);
+		nounCounts.setText("The number of nouns: "+nounCount);
+		System.out.println();
 		verbCounts.setText("The number of verbs: "+ verbCount);
 		adjCounts.setText("The number of adjectives: "+ adjCount);
 		conjCounts.setText("The number of conjugations: "+ conjCount);
-		
+
 		if(syl1Word > 0)
-		syl1.setText("The number of one syllable words: "+ syl1Word);
+			syl1.setText("The number of one syllable words: "+ syl1Word);
 		if(syl2Word > 0)
-		syl2.setText("The number of two syllable words: "+ syl2Word);
+			syl2.setText("The number of two syllable words: "+ syl2Word);
 		if(syl3Word > 0)
-		syl3.setText("The number of three syllable words: "+ syl3Word);
+			syl3.setText("The number of three syllable words: "+ syl3Word);
 		if(syl4Word > 0)
-		syl4.setText("The number of four syllable words: "+ syl4Word);
+			syl4.setText("The number of four syllable words: "+ syl4Word);
 		if(syl5Word > 0)
-		syl5.setText("The number of five syllable words: "+ syl5Word);
+			syl5.setText("The number of five syllable words: "+ syl5Word);
 		if(syl6Word > 0)
-		syl6.setText("The number of six syllable words: "+ syl6Word);
+			syl6.setText("The number of six syllable words: "+ syl6Word);
 		if(syl7Word > 0)
-		syl7.setText("The number of seven syllable words: "+ syl7Word);
+			syl7.setText("The number of seven syllable words: "+ syl7Word);
 
 	}
 

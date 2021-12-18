@@ -64,15 +64,11 @@ public class Main{
 		//create an object
 		HaikuGUI frame = new HaikuGUI();
 		//set the size of the frame
-		frame.setSize(400, 300); //these numbers are in pixels
+		frame.setSize(300, 500); //these numbers are in pixels
 		//set the default close operation
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//must make frame visible
 		frame.setVisible(true);
-
-
-
-
 
 	}
 
