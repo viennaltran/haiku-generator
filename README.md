@@ -1,6 +1,5 @@
 # haiku-generator
-What functionality is working so far?
+What our project does: 
+We created a GUI that allows a user to create Haiku (a poem originally from Japan that uses seventeen syllables, in three lines of five, seven, and five. Conventionally, the theme of the poem is on nature).
 
-What problems/bugs are you currently running into (if any)?
-
-Provide a planned schedule for when you aim to complete each remaining aspect of the project.
+Features: generate Haiku randomly using hard-coded words as keywords, create Haiku using a keyword from user’s input, add stats
